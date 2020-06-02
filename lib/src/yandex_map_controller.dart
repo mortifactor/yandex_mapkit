@@ -11,6 +11,7 @@ import 'polygon.dart';
 import 'polyline.dart';
 
 typedef CameraPositionCallback = void Function(dynamic msg);
+typedef MapTapCallback = void Function(double, double);
 
 class YandexMapController extends ChangeNotifier {
   YandexMapController._(MethodChannel channel)
@@ -30,7 +31,8 @@ class YandexMapController extends ChangeNotifier {
   final List<Polyline> polylines = <Polyline>[];
   final List<Polygon> polygons = <Polygon>[];
   CameraPositionCallback _cameraPositionCallback;
-  
+  MapTapCallback _mapTapCallback;
+
   static YandexMapController init(int id) {
     final MethodChannel methodChannel = MethodChannel('yandex_mapkit/yandex_map_$id');
 
@@ -152,6 +154,10 @@ class YandexMapController extends ChangeNotifier {
     return Point(latitude: point['latitude'], longitude: point['longitude']);
   }
 
+  void setMapTapCallback(MapTapCallback callback) {
+    _mapTapCallback = callback;
+  }
+
   // Does nothing if passed `Placemark` wasn't added before
   Future<void> removePlacemark(Placemark placemark) async {
     if (placemarks.remove(placemark)) {
@@ -237,6 +243,7 @@ class YandexMapController extends ChangeNotifier {
     final double latitude = arguments['latitude'];
     final double longitude = arguments['longitude'];
     print("map tap: $latitude $longitude");
+    _mapTapCallback?.call(latitude, longitude);
   }
 
   void _onMapObjectTap(dynamic arguments) {
