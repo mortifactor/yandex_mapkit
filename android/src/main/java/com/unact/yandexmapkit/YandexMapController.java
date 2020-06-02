@@ -7,6 +7,8 @@ import android.view.View;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PointF;
+
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
 import com.yandex.mapkit.Animation;
@@ -18,6 +20,7 @@ import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.geometry.Polyline;
 import com.yandex.mapkit.layers.ObjectEvent;
 import com.yandex.mapkit.map.CameraPosition;
+import com.yandex.mapkit.map.InputListener;
 import com.yandex.mapkit.map.MapObject;
 import com.yandex.mapkit.map.MapObjectCollection;
 import com.yandex.mapkit.map.MapObjectTapListener;
@@ -69,6 +72,9 @@ public class YandexMapController implements PlatformView, MethodChannel.MethodCa
     mapView = new MapView(context);
     MapKitFactory.getInstance().onStart();
     mapView.onStart();
+
+    mapView.getMap().addInputListener(new YandexMapTapListener());
+
     pluginRegistrar = registrar;
     yandexMapObjectTapListener = new YandexMapObjectTapListener();
     userLocationLayer =
@@ -541,5 +547,19 @@ public class YandexMapController implements PlatformView, MethodChannel.MethodCa
 
       return true;
     }
+  }
+
+  private class YandexMapTapListener implements InputListener {
+    @Override
+    public void onMapTap(@NonNull com.yandex.mapkit.map.Map map, @NonNull Point point) {
+      Map<String, Object> arguments = new HashMap<>();
+      arguments.put("latitude", point.getLatitude());
+      arguments.put("longitude", point.getLongitude());
+
+      methodChannel.invokeMethod("onMapTap", arguments);
+    }
+
+    @Override
+    public void onMapLongTap(@NonNull com.yandex.mapkit.map.Map map, @NonNull Point point) {}
   }
 }

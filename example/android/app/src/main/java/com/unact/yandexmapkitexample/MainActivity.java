@@ -9,7 +9,7 @@ public class MainActivity extends FlutterActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    MapKitFactory.setApiKey("YOUR_API_KEY");
+    MapKitFactory.setApiKey("97c66e69-2230-4e76-86ef-bbe91570bede");
     GeneratedPluginRegistrant.registerWith(this);
   }
 }
