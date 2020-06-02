@@ -219,6 +219,9 @@ class YandexMapController extends ChangeNotifier {
 
   Future<void> _handleMethodCall(MethodCall call) async {
     switch (call.method) {
+      case 'onMapTap':
+        _onMapTap(call.arguments);
+        break;
       case 'onMapObjectTap':
         _onMapObjectTap(call.arguments);
         break;
@@ -230,10 +233,18 @@ class YandexMapController extends ChangeNotifier {
     }
   }
 
+  void _onMapTap(dynamic arguments) {
+    final double latitude = arguments['latitude'];
+    final double longitude = arguments['longitude'];
+    print("map tap: $latitude $longitude");
+  }
+
   void _onMapObjectTap(dynamic arguments) {
     final int hashCode = arguments['hashCode'];
     final double latitude = arguments['latitude'];
     final double longitude = arguments['longitude'];
+
+    print("tap $latitude $longitude");
 
     final Placemark placemark = placemarks.
       firstWhere((Placemark placemark) => placemark.hashCode == hashCode, orElse: () => null);

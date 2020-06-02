@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:yandex_mapkit_example/examples/page.dart';
 
-class TargetPage extends Page {
+class TargetPage extends YMKPage {
   const TargetPage() : super('Target example');
 
   @override

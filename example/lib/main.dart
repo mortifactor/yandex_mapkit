@@ -13,7 +13,7 @@ void main() {
   runApp(MaterialApp(home: MainPage()));
 }
 
-final List<Page> _allPages = <Page>[
+final List<YMKPage> _allPages = <YMKPage>[
   const LayersPage(),
   const MapControlsPage(),
   const PlacemarkPage(),
@@ -24,7 +24,7 @@ final List<Page> _allPages = <Page>[
 ];
 
 class MainPage extends StatelessWidget {
-  void _pushPage(BuildContext context, Page page) {
+  void _pushPage(BuildContext context, YMKPage page) {
     Navigator.push(
       context,
       MaterialPageRoute<void>(builder: (_) =>

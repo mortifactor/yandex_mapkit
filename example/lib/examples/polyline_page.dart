@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:yandex_mapkit_example/examples/page.dart';
 
-class PolylinePage extends Page {
+class PolylinePage extends YMKPage {
   const PolylinePage() : super('Polyline example');
 
   @override

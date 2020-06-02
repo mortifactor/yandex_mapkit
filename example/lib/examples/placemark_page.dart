@@ -3,7 +3,7 @@ import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:yandex_mapkit_example/examples/page.dart';
 import 'package:yandex_mapkit_example/examples/data/dummy_image.dart' show rawImageData;
 
-class PlacemarkPage extends Page {
+class PlacemarkPage extends YMKPage {
   const PlacemarkPage() : super('Placemark example');
 
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-abstract class Page extends StatelessWidget {
-  const Page(this.title);
+abstract class YMKPage extends StatelessWidget {
+  const YMKPage(this.title);
 
   final String title;
 }

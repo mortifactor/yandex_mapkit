@@ -7,6 +7,7 @@ import YandexMapKitSearch
 public class YandexMapController: NSObject, FlutterPlatformView {
   private let methodChannel: FlutterMethodChannel!
   private let pluginRegistrar: FlutterPluginRegistrar!
+  private let mapTapListener: MapTapListener!
   private let mapObjectTapListener: MapObjectTapListener!
   private var mapCameraListener: MapCameraListener!
   private var userLocationObjectListener: UserLocationObjectListener?
@@ -24,6 +25,8 @@ public class YandexMapController: NSObject, FlutterPlatformView {
       name: "yandex_mapkit/yandex_map_\(id)",
       binaryMessenger: registrar.messenger()
     )
+    self.mapTapListener = MapTapListener(channel: methodChannel)
+    mapView.mapWindow.map.addInputListener(with: mapTapListener)
     self.mapObjectTapListener = MapObjectTapListener(channel: methodChannel)
     self.userLocationLayer =
                 YMKMapKit.sharedInstance().createUserLocationLayer(with: mapView.mapWindow)
@@ -229,7 +232,7 @@ public class YandexMapController: NSObject, FlutterPlatformView {
     let params = call.arguments as! [String: Any]
     let mapObjects = mapView.mapWindow.map.mapObjects
     let placemark = placemarks.first(where: { $0.userData as! Int == params["hashCode"] as! Int })
-
+    
     if (placemark != nil) {
       mapObjects.remove(with: placemark!)
       placemarks.remove(at: placemarks.firstIndex(of: placemark!)!)
@@ -477,6 +480,25 @@ public class YandexMapController: NSObject, FlutterPlatformView {
     }
   }
   
+  internal class MapTapListener: NSObject, YMKMapInputListener {
+    private let methodChannel: FlutterMethodChannel!
+    
+    public required init(channel: FlutterMethodChannel) {
+      self.methodChannel = channel
+    }
+    
+    func onMapTap(with map: YMKMap?, point: YMKPoint) {
+      let arguments: [String: Any?] = [
+        "latitude": point.latitude,
+        "longitude": point.longitude
+      ]
+      methodChannel.invokeMethod("onMapTap", arguments: arguments)
+    }
+    
+    func onMapLongTap(with map: YMKMap?, point: YMKPoint) {
+    }
+  }
+
   internal class MapCameraListener: NSObject, YMKMapCameraListener {
     private let yandexMapController: YandexMapController!
     private let methodChannel: FlutterMethodChannel!
