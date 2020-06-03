@@ -56,6 +56,7 @@ public class YandexMapController implements PlatformView, MethodChannel.MethodCa
   private final PluginRegistry.Registrar pluginRegistrar;
   private YandexUserLocationObjectListener yandexUserLocationObjectListener;
   private YandexCameraListener yandexCameraListener;
+  private YandexMapTapListener yandexMapTapListener;
   private YandexMapObjectTapListener yandexMapObjectTapListener;
   private UserLocationLayer userLocationLayer;
   private PlacemarkMapObject cameraTarget = null;
@@ -73,7 +74,8 @@ public class YandexMapController implements PlatformView, MethodChannel.MethodCa
     MapKitFactory.getInstance().onStart();
     mapView.onStart();
 
-    mapView.getMap().addInputListener(new YandexMapTapListener());
+    yandexMapTapListener = new YandexMapTapListener();
+    mapView.getMap().addInputListener(yandexMapTapListener);
 
     pluginRegistrar = registrar;
     yandexMapObjectTapListener = new YandexMapObjectTapListener();
