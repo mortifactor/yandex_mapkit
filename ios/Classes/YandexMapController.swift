@@ -88,6 +88,9 @@ public class YandexMapController: NSObject, FlutterPlatformView {
     case "getTargetPoint":
       let targetPoint = getTargetPoint()
       result(targetPoint)
+    case "getCurrentZoom":
+      let zoom = getCurrentZoom()
+      result(zoom)
     case "moveToUser":
       moveToUser()
       result(nil)
@@ -195,7 +198,11 @@ public class YandexMapController: NSObject, FlutterPlatformView {
     ]
     return arguments
   }
-    
+
+  public func getCurrentZoom() -> Float {
+    return mapView.mapWindow.map.cameraPosition.zoom;
+  }
+
   public func addPlacemark(_ call: FlutterMethodCall) {
     let params = call.arguments as! [String: Any]
     let point = YMKPoint(latitude: params["latitude"] as! Double,

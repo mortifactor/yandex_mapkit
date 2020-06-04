@@ -223,6 +223,10 @@ class YandexMapController extends ChangeNotifier {
     return Point(latitude: point['latitude'], longitude: point['longitude']);
   }
 
+  Future<double> getCurrentZoom() async {
+    return await _channel.invokeMethod<dynamic>('getCurrentZoom');
+  }
+
   Future<void> _handleMethodCall(MethodCall call) async {
     switch (call.method) {
       case 'onMapTap':

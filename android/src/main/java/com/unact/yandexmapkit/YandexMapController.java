@@ -190,6 +190,10 @@ public class YandexMapController implements PlatformView, MethodChannel.MethodCa
     return arguments;
   }
 
+  private float getCurrentZoom() {
+    return mapView.getMap().getCameraPosition().getZoom();
+  }
+
   @SuppressWarnings("unchecked")
   private void removePlacemark(MethodCall call) {
     Map<String, Object> params = ((Map<String, Object>) call.arguments);
@@ -472,6 +476,10 @@ public class YandexMapController implements PlatformView, MethodChannel.MethodCa
       case "getTargetPoint":
         Map<String, Object> point = getTargetPoint();
         result.success(point);
+        break;
+      case "getCurrentZoom":
+        float zoom = getCurrentZoom();
+        result.success(zoom);
         break;
       case "moveToUser":
         moveToUser();
